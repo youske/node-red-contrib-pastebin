@@ -1,0 +1,109 @@
+<script type="text/x-red" data-template-name="pastebin">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="fa fa-bookmark"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row input-apitoken-row">
+    <label for="node-config-input-apitoken"><i class="fa fa-lock"></i> APIToken</label>
+    <input type="password" id="node-config-input-apitoken">
+  </div>
+  <div class="form-row input-usertoken-row">
+    <label for="node-config-input-usertoken"><i class="fa fa-lock"></i> UserToken</label>
+    <input type="password" id="node-config-input-usertoken">
+  </div>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('pastebin', {
+    category: 'config',
+    color: "#48ace4",
+    defaults: {
+      name: { value: '', required: true }
+    },
+    credentials: {
+      apitoken: { type: 'password', required: true },
+      usertoken: { type: 'password', required: true }
+    },
+    label: function() {
+      return this.name
+    }
+  });
+</script>
+
+<script type="text/x-red" data-help-name="pastebin out">
+  <p>pastebin.comへの投稿投稿</p>
+　  <p>
+    サービスの使い方は<a href="https://pastebin.com">
+    <p>
+　<p>
+　 user_apikey (require pro)
+   msg.payload = code
+   exposure = 0 public 1 unlist 2 private
+   private設定はpastebin proのみ
+</script>
+
+<script type="text/x-red" data-template-name="pastebin out">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-bookmark"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-pastebin"><i class="fa fa-user"></i> Set APIToken</label>
+    <input type="text" id="node-input-pastebin">
+  </div>
+  <div class="form-row">
+    <label for="node-input-format"><i class="icon-tag"></i> Format</label>
+    <input type="text" id="node-input-format" placeholder="Format">
+  </div>  
+  <div class="form-row input-pastename-row">
+    <label for="node-input-pastename"><i class="fa fa-lock"></i> PasteName</label>
+    <input type="text" id="node-input-pastename">
+  </div>
+  <div class="form-row">
+    <label for="node-input-exposure"><i class="icon-tag"></i> Exposure</label>
+    <select type="text" id="node-input-exposure">
+      <option value="0">Public</option>
+      <option value="1">Unlisted</option>
+      <option value="2">Private</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-expire"><i class="fa fa-wrench"></i> Expire</label>
+    <select type="text" id="node-input-expire">
+      <option value="N">Never</option>
+      <option value="10M">10 Minutes</option>
+      <option value="1H">1 Hour</option>
+      <option value="1D">1 Day</option>
+      <option value="1W">1 Week</option>
+      <option value="2W">2 Weeks</option>
+      <option value="1M">1 Month</option>
+      <option value="6M">6 Month</option>
+      <option value="1Y">1 Year</option>
+    </select>
+  </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('pastebin out', {
+        category: 'storage-output',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: '' },
+            pastebin: { type: 'pastebin', required: true },
+            format: { value: 'markdown', required: true },
+            pastename: { value: 'Untitled code', required: false },
+            exposure: { value: '1', required: false },            
+            expire: { value: 'N', required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "pastebin.png",
+        align: "right",
+        label: function() {
+            var pastebinNode = RED.nodes.node(this.pastebin);
+            return this.name || 'pastebin';
+        }
+    });
+</script>
+
+
